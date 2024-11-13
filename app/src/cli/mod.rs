@@ -8,6 +8,7 @@ mod lsp;
 mod run;
 mod texify;
 mod xfunc;
+mod foo;
 
 pub fn exec() -> miette::Result<()> {
     let cli = Cli::parse();
@@ -34,6 +35,7 @@ pub fn exec() -> miette::Result<()> {
         Xfunc(args) => xfunc::exec(args),
         Lsp(args) => lsp::exec(args),
         Lift(args) => lift::exec(args),
+        Foo(args) => foo::exec(args),
     }
 }
 
@@ -67,4 +69,6 @@ enum Command {
     Lsp(lsp::Args),
     /// Lift local (co)matches of a type to the top-level
     Lift(lift::Args),
+    /// Foo
+    Foo(foo::Args),
 }
