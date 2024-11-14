@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Display</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <h1>Code Example</h1>
+        <pre><code>
+<span class="keyword">data</span> Nat { Z, S(n: Nat) }
+
+<span class="keyword">data</span> NotZero(n: Nat) {
+    SNotZero(n: Nat): NotZero(S(n))
+}
+
+<span class="keyword">def</span> NotZero(Z).elim_zero(a: Type): a { SNotZero(n) absurd }
+
+<span class="keyword">data</span> Bot { }
+
+<span class="keyword">data</span> Foo(a: Type) {
+    Ok(a: Type, x: a): Foo(a),
+    Absurd(x: NotZero(Z)): Foo(Bot)
+}
+
+<span class="keyword">def</span> Foo(a).elim(a: Type): a {
+    Ok(a, x) =&gt; x,
+    Absurd(x) =&gt; x.elim_zero(Bot)
+}
+        </code></pre>
+    </div>
+</body>
+</html>

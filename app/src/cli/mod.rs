@@ -9,6 +9,7 @@ mod run;
 mod texify;
 mod xfunc;
 mod foo;
+mod html;
 
 pub fn exec() -> miette::Result<()> {
     let cli = Cli::parse();
@@ -36,6 +37,7 @@ pub fn exec() -> miette::Result<()> {
         Lsp(args) => lsp::exec(args),
         Lift(args) => lift::exec(args),
         Foo(args) => foo::exec(args),
+        Html(args) => html::exec(args),
     }
 }
 
@@ -71,4 +73,6 @@ enum Command {
     Lift(lift::Args),
     /// Foo
     Foo(foo::Args),
+    /// HTML
+    Html(html::Args),
 }

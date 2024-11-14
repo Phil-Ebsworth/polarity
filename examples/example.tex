@@ -1,0 +1,12 @@
+\begin{alltt}
+\scriptsize\ttfamily\polKw{data} \polType{Nat} \{ \polCtor{Z}, \polCtor{S}(n: \polType{Nat}) \}
+\polKw{def} \polType{Nat}.\polDtor{add}(y: \polType{Nat}): \polType{Nat} \{
+    \polCtor{Z} => y,
+    \polCtor{S}(x') => \polCtor{S}(x'.\polDtor{add}(y))
+\}
+\polKw{data} \polType{Vec}(n: \polType{Nat}) \{
+    \polCtor{Nil}: \polType{Vec}(\polCtor{Z}),
+    \polCtor{Cons}(n x: \polType{Nat}, xs: \polType{Vec}(n)): \polType{Vec}(\polCtor{S}(n))
+\}
+\polKw{codata} \polType{Stream} \{ .\polDtor{head}: \polType{Nat}, .\polDtor{tail}: \polType{Stream} \}
+\polKw{codata} \polType{NatToNat} \{ .\polDtor{ap}(x: \polType{Nat}): \polType{Nat} \}\end{alltt}
