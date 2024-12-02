@@ -9,6 +9,29 @@ use driver::paths::{CSS_PATH, CSS_TEMPLATE_PATH};
 use driver::Database;
 use printer::{Print, PrintCfg};
 
+use crate::generate_docs::GenerateDocs;
+
+const HTML_END: &str = " </code></pre>
+    </div></body></html>";
+
+fn html_start(filepath: &Path) -> String {
+    format!(
+        "<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <title>{filename}</title>
+    <link rel=\"stylesheet\" href=\"style.css\">
+</head>
+<body>
+<div>
+        <h1>{filename}</h1>
+        <pre><code>",
+        filename = filepath.file_name().unwrap().to_string_lossy()
+    )
+}
+
 pub async fn write_html(filepath: &PathBuf, htmlpath: &PathBuf) {
     let mut db = Database::from_path(filepath);
     let uri = db.resolve_path(filepath).expect("Failed to resolve path");
@@ -22,13 +45,15 @@ pub async fn write_html(filepath: &PathBuf, htmlpath: &PathBuf) {
     }
 
     let mut stream = Box::new(fs::File::create(htmlpath).expect("Failed to create file"));
-
-    let code = prg.print_html_to_string(Some(&cfg));
-    let title = filepath.file_name().unwrap().to_str().unwrap();
-    let output = generate_html(title, &code);
-
-    stream.write_all(output.as_bytes()).expect("Failed to write to file");
+    stream.write_all(html_start(filepath).as_bytes()).expect("Failed to write to file");
+    print_prg(&prg, &cfg, &mut stream);
+    stream.write_all(HTML_END.as_bytes()).expect("Failed to write to file");
     println!("new Generate: {}", prg.generate_docs())
+}
+
+fn print_prg<W: io::Write>(prg: &ast::Module, cfg: &PrintCfg, stream: &mut W) {
+    prg.print_html(cfg, stream).expect("Failed to print to stdout");
+    println!();
 }
 
 pub fn open(filepath: &PathBuf) {
