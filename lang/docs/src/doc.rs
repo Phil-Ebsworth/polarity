@@ -10,6 +10,8 @@ use driver::paths::CSS_PATH;
 use driver::Database;
 use printer::{Print, PrintCfg};
 
+use crate::generate_docs::GenerateDocs;
+
 const HTML_END: &str = " </code></pre>
     </div></body></html>";
 
@@ -44,6 +46,7 @@ pub async fn write_html(filepath: &PathBuf, htmlpath: &PathBuf) {
     stream.write_all(html_start(filepath).as_bytes()).expect("Failed to write to file");
     print_prg(&prg, &cfg, &mut stream);
     stream.write_all(HTML_END.as_bytes()).expect("Failed to write to file");
+    println!("new Generate: {}", prg.generate_docs())
 }
 
 fn print_prg<W: io::Write>(prg: &ast::Module, cfg: &PrintCfg, stream: &mut W) {
