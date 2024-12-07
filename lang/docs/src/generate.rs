@@ -115,7 +115,7 @@ impl Generate for SelfParam {
 impl Generate for DocComment {
     fn generate(&self) -> String {
         let DocComment { docs } = self;
-        let prefix = "<span class=\"comment\"> -- |";
+        let prefix = "<span class=\"comment\">";
         let postfix = "</span>";
         docs.iter()
             .map(|doc| {
