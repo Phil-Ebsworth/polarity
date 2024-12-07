@@ -24,7 +24,7 @@ pub async fn write_html(filepath: &PathBuf, htmlpath: &PathBuf) {
     let mut stream = fs::File::create(htmlpath).expect("Failed to create file");
 
     let code = prg.generate_docs();
-    let title = filepath.file_name().unwrap().to_str().unwrap();
+    let title = filepath.file_name().unwrap().to_str().unwrap().trim_end_matches(".pol");
     let output = generate_html(title, &code);
 
     stream.write_all(output.as_bytes()).expect("Failed to write to file");
