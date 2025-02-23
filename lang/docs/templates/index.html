@@ -11,9 +11,23 @@
         <ul>
             {{list}}
         </ul>
+        <li>&nbsp;</li>
     </nav>
     <main>{{code}}</main>
     <script>
+        const folders = document.querySelectorAll('.folder');
+
+        folders.forEach(folder => {
+        // When a folder <li> is clicked,
+        // toggle the "collapsed" class on that folder
+        folder.addEventListener('click', function(e) {
+            // Prevent the click from bubbling up (so nested folders don't trigger parent folders)
+            e.stopPropagation();
+            // Toggle the collapsed class
+            this.classList.toggle('collapsed');
+        });
+        });
+
         function toggleCard(button) {
             const content = button.parentElement.parentElement.nextElementSibling.nextElementSibling;
             
